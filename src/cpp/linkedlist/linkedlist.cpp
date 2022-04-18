@@ -28,6 +28,7 @@ linkedlist::Node* linkedlist::delete_node(int data, linkedlist::Node* head) {
     if(curr->next != nullptr) {
         Node* tmp = curr->next;
         curr->next = tmp->next;
+        tmp->next = nullptr;
         // TODO: will this call the destructor
         delete tmp;
     }
