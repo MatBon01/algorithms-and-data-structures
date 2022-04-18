@@ -12,3 +12,24 @@ void linkedlist::Node::append_to_tail(int data) {
         next->append_to_tail(data);
     }
 }
+
+// TODO:: check namespace finding automatically in argument
+linkedlist::Node* linkedlist::delete_node(int data, linkedlist::Node* head) {
+    if (head==nullptr) {
+        return head;
+    }
+    if (head->data == data) {
+        return head->next;
+    }
+    Node* curr = head;
+    while (curr->next != nullptr && curr->next->data != data) {
+        curr = curr->next;
+    }
+    if(curr->next != nullptr) {
+        Node* tmp = curr->next;
+        curr->next = tmp->next;
+        // TODO: will this call the destructor
+        delete tmp;
+    }
+    return head;
+}
