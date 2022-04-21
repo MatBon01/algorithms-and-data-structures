@@ -1,13 +1,12 @@
 ﻿#include "linkedlist.h"
+#include <memory>
 
 using namespace mb_ds;
 
 void linkedlist::Node::append_to_tail(int data) {
     // TODO:: why namespace for node not found automatically
-    // TODO:: are you allowed to use new or am I doing it wrong?
-    // TODO:: must you delete the next element in the destructor if it exists?
     if (next == nullptr) {
-        next = new mb_ds::linkedlist::Node(data);
+        next = std::unique_ptr<Node>(new mb_ds::linkedlist::Node(data));
     } else {
         next->append_to_tail(data);
     }
@@ -19,18 +18,15 @@ linkedlist::Node* linkedlist::delete_node(int data, linkedlist::Node* head) {
         return head;
     }
     if (head->data == data) {
-        return head->next;
+        return head->next.get();
     }
     Node* curr = head;
     while (curr->next != nullptr && curr->next->data != data) {
-        curr = curr->next;
+        curr = curr->next.get();
     }
     if(curr->next != nullptr) {
-        Node* tmp = curr->next;
-        curr->next = tmp->next;
-        tmp->next = nullptr;
-        // TODO: will this call the destructor
-        delete tmp;
+        auto tmp = std::move(curr->next);
+        curr->next = std::move(tmp->next);
     }
     return head;
 }

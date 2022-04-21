@@ -15,7 +15,7 @@ int main() {
     linkedlist::Node* curr = node;
     while (curr != nullptr) {
         std::cout << curr->data << std::endl;
-        curr = curr->next;
+        curr = curr->next.get();
     }
 
     delete node;
