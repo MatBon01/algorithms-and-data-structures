@@ -2,9 +2,7 @@
 
 .PHONY = clean
 
-client: linkedlist.o linkedlist.h
-
-linkedlist.o: linkedlist.h
+client: linkedlist.h
 
 clean:
 	rm -f *.o client

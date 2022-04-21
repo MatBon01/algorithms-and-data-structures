@@ -1,22 +1,38 @@
 ﻿#include "linkedlist.h"
 #include <iostream>
+#include <string>
+#include <memory>
 
 using namespace mb_ds;
 
-int main() {
-    linkedlist::Node* node = new linkedlist::Node {5};
-
-    node->append_to_tail(3);
-    node->append_to_tail(7);
-    node->append_to_tail(9);
-
-    linkedlist::delete_node(7, node);
-
-    linkedlist::Node* curr = node;
+template <typename T>
+void print_list(linkedlist::Node<T>* head) {
+    linkedlist::Node<T>* curr = head;
     while (curr != nullptr) {
         std::cout << curr->data << std::endl;
         curr = curr->next.get();
     }
-
-    delete node;
 }
+
+int main() {
+    std::shared_ptr<linkedlist::Node<int>> list1 = std::shared_ptr<linkedlist::Node<int>>(new linkedlist::Node<int> {5});
+
+    list1->append_to_tail(3);
+    list1->append_to_tail(7);
+    list1->append_to_tail(9);
+
+    linkedlist::delete_node(7, list1.get());
+
+    print_list(list1.get());
+
+    std::shared_ptr<linkedlist::Node<std::string>> list2 = std::shared_ptr<linkedlist::Node<std::string>>(new linkedlist::Node<std::string> {"zero"});
+
+    list2->append_to_tail("one");
+    list2->append_to_tail("gone");
+    list2->append_to_tail("two");
+
+    linkedlist::delete_node(std::string("gone"), list2.get());
+
+    print_list(list2.get());
+}
+
