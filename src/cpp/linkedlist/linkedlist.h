@@ -6,6 +6,15 @@ namespace mb_ds {
         class Node {
         public:
           Node(T data): data{data}, next{nullptr} {}
+          Node(std::initializer_list<T> data) {
+              if (data.size() == 0) {
+                  throw std::invalid_argument("data cannot be empty");
+              }
+              this->data = *data.begin();
+              for (unsigned long datum_index = 1; datum_index < data.size(); datum_index++) {
+                  this->append_to_tail(data.begin()[datum_index]);
+              }
+          }
           Node(T data, Node* next): data{data}, next{next} {}
 
           void append_to_tail(T data);
